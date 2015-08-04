@@ -1,9 +1,4 @@
-from django.contrib import admin
-from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
-
-
-User = get_user_model()
 
 
 class UUIDUserAdmin(UserAdmin):
@@ -18,6 +13,3 @@ class UUIDUserAdmin(UserAdmin):
   )
   list_display = ('username', 'name', 'short_name', 'is_staff')
   search_fields = ('username', 'name', 'short_name')
-
-
-admin.site.register(User, UUIDUserAdmin)
