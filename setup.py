@@ -3,8 +3,8 @@ from setuptools import setup
 
 if __name__ == '__main__':
   setup(
-    name='uuiduser',
-    version='0.0.2',
+    name='unb-uuiduser',
+    version='0.0.3',
     description='Django UUID-based User model.',
     author='Nick Zarczynski',
     author_email='nick@unb.services',
@@ -14,6 +14,7 @@ if __name__ == '__main__':
     include_package_data=True,
     install_requires=[],
     license="MIT",
+    url='https://bitbucket.org/unbsolutions/unb-uuiduser',
     classifiers=[
       'Development Status :: 2 - Pre-Alpha',
       'Intended Audience :: Developers',

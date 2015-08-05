@@ -32,6 +32,17 @@ When using the ``createsuperuser`` command, the first prompt will be for
 ``Uuid``.  You must enter a blank value for this.
 
 
+Build
+-----
+
+Build a source distribution with:
+
+::
+
+   python setup.py sdist
+
+
+
 Development
 -----------
 
