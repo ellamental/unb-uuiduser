@@ -242,11 +242,6 @@ class UUIDUser(auth_models.PermissionsMixin, auth_models.AbstractBaseUser):
     Args:
 
       address(str): Email address as a string.
-
-    Raises:
-
-      django.db.IntegrityError: If address is not unique (by whatever mechanism
-        is used to determine that).
     """
     pass
 
