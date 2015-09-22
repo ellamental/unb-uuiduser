@@ -166,6 +166,10 @@ class UUIDUser(auth_models.PermissionsMixin, auth_models.AbstractBaseUser):
 
   short_name = models.CharField(max_length=255, default='', blank=True)
 
+  first_name = models.CharField(max_length=255, default='', blank=True)
+
+  last_name = models.CharField(max_length=255, default='', blank=True)
+
   is_staff = models.BooleanField(default=False,
                                  help_text='Can log in to admin.')
   is_active = models.BooleanField(default=True)
@@ -244,23 +248,6 @@ class UUIDUser(auth_models.PermissionsMixin, auth_models.AbstractBaseUser):
       address(str): Email address as a string.
     """
     pass
-
-
-  @property
-  def first_name(self):
-    """DEPRECATED: Provides contrib.auth.User api compatability.
-
-    Returns ``name``.
-    """
-    return self.name
-
-  @property
-  def last_name(self):
-    """DEPRECATED: Provides contrib.auth.User api compatability.
-
-    Returns ``name``.
-    """
-    return self.name
 
   def set_username(self, username):
     """Set the username, taking care to normalize it first.

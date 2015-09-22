@@ -4,7 +4,7 @@ from setuptools import setup
 if __name__ == '__main__':
   setup(
     name='unb-uuiduser',
-    version='0.0.3',
+    version='0.0.4',
     description='Django UUID-based User model.',
     author='Nick Zarczynski',
     author_email='nick@unb.services',
