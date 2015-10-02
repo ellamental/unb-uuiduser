@@ -1,4 +1,3 @@
-from django.core import exceptions
 from django.db import models
 
 

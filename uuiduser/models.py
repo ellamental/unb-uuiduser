@@ -1,7 +1,6 @@
 import re
 import uuid
 
-from django.contrib import admin
 from django.contrib.auth import models as auth_models
 from django.contrib.auth.tokens import default_token_generator
 from django.core import validators
@@ -290,8 +289,8 @@ class UUIDUser(auth_models.PermissionsMixin, auth_models.AbstractBaseUser):
 
     Raises:
 
-      User.DoesNotExist: If the User was not found.
+      UUIDUser.DoesNotExist: If the User was not found.
 
-    Returns an instance of User if the User was found.
+    Returns an instance of UUIDUser if the User was found.
     """
-    raise User.DoesNotExist
+    raise UUIDUser.DoesNotExist
