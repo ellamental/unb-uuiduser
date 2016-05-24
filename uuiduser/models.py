@@ -77,9 +77,6 @@ class DefaultUserQuerySet(models.QuerySet):
     return self.filter(is_superuser=True)
 
 
-DefaultUserManager = DefaultUserManager.from_queryset(DefaultUserQuerySet)
-
-
 class UUIDUser(auth_models.PermissionsMixin, auth_models.AbstractBaseUser):
   """Representation of a user (account) identified by a UUID.
 
@@ -210,7 +207,7 @@ class UUIDUser(auth_models.PermissionsMixin, auth_models.AbstractBaseUser):
   # Model Managers/QuerySets
   # ========================
 
-  objects = DefaultUserManager()
+  objects = DefaultUserManager.from_queryset(DefaultUserQuerySet)()
 
   def __str__(self):
     return str(self.get_username())
