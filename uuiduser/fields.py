@@ -4,7 +4,6 @@ from django.db import models
 # TODO(nick): This needs to be pulled out into its own package.
 class NullCharField(models.CharField):
   description = "CharField that transparently stores NULL for empty strings."
-  __metaclass__ = models.SubfieldBase  # this ensures to_python will be called
 
   def to_python(self, value):
     # Is this the value right out of the db, or an instance? If an instance,
