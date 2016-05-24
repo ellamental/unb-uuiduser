@@ -1,0 +1,16 @@
+0.0.6
+======
+
+- Address Django 1.9 warnings about custom fields
+- Create DefaultUserManager in the UUIDUser class instead of at the module
+  level.
+- Make setup.py compatible with standard UNB Python package layout.
+- Add CHANGELOG
+- Add VERSION
+
+
+
+< 0.0.6
+========
+
+Initial project development.  See commit log for details.
