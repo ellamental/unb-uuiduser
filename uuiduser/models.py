@@ -14,7 +14,57 @@ from .fields import NullCharField
 #   since it's not entirely straight-forward to migrate.
 
 
-class DefaultUserManager(auth_models.BaseUserManager):
+class DefaultUserQuerySet(models.QuerySet):
+  def _filter_or_exclude(self, mapper, *args, **kwargs):
+    """Make username lookups case-insensitive by default.
+
+    Usernames are stored as case-sensitive strings so they may be displayed as
+    the user entered them.
+
+    Note: This does not work for more complex queries, like: related__username.
+    """
+    if 'username' in kwargs:
+      kwargs['username__iexact'] = kwargs['username']
+      del kwargs['username']
+    return super(DefaultUserQuerySet, self)._filter_or_exclude(
+      mapper, *args, **kwargs)
+
+  def username(self, username):
+    return self.get(username__iexact=username)
+
+  def active(self):
+    return self.filter(is_active=True)
+
+  def staff(self):
+    return self.filter(is_staff=True)
+
+  def admin(self):
+    return self.filter(is_superuser=True)
+
+
+class DefaultUserManager(auth_models.BaseUserManager.from_queryset(DefaultUserQuerySet)):
+  """Default User manager that implements compliant create methods."""
+
+  # .. NOTE:: We are using the from_queryset() function to dynamically
+  #           generate a manager class, so we need to inherit from the
+  #           generated class to make it importable in migrations.
+  #
+  #           https://docs.djangoproject.com/en/1.9/topics/migrations/#model-managers
+  #
+  # TODO(nick): Does this manager absolutely need to be available in
+  #             migrations?  According to the `Historical models`_ section in
+  #             Django docs, it appears as though allowing this manager in
+  #             migrations may become a maintenence nightmare if we have to
+  #             "keep
+  #
+  #                 References to ... and model manager declarations with
+  #                 managers having use_in_migrations = True are serialized in
+  #                 migrations, so the functions and classes will need to be
+  #                 kept around for as long as there is a migration referencing
+  #                 them.
+  #
+  # .. _`Historical models`: https://docs.djangoproject.com/en/1.9/topics/migrations/#historical-models
+  #
   use_in_migrations = True
 
   def create(self, password=None, username=None, **extra):
@@ -47,34 +97,6 @@ class DefaultUserManager(auth_models.BaseUserManager):
     """Provide an auth.User compliant create_superuser api."""
     return self.create(password=password, username=username, is_staff=True,
                        is_superuser=True, **extra)
-
-
-class DefaultUserQuerySet(models.QuerySet):
-  def _filter_or_exclude(self, mapper, *args, **kwargs):
-    """Make username lookups case-insensitive by default.
-
-    Usernames are stored as case-sensitive strings so they may be displayed as
-    the user entered them.
-
-    Note: This does not work for more complex queries, like: related__username.
-    """
-    if 'username' in kwargs:
-      kwargs['username__iexact'] = kwargs['username']
-      del kwargs['username']
-    return super(DefaultUserQuerySet, self)._filter_or_exclude(
-      mapper, *args, **kwargs)
-
-  def username(self, username):
-    return self.get(username__iexact=username)
-
-  def active(self):
-    return self.filter(is_active=True)
-
-  def staff(self):
-    return self.filter(is_staff=True)
-
-  def admin(self):
-    return self.filter(is_superuser=True)
 
 
 class UUIDUser(auth_models.PermissionsMixin, auth_models.AbstractBaseUser):
@@ -110,8 +132,15 @@ class UUIDUser(auth_models.PermissionsMixin, auth_models.AbstractBaseUser):
     verbose_name = 'user'
     verbose_name_plural = 'users'
 
+
+  # Model Managers/QuerySets
+  # =========================
+
+  objects = DefaultUserManager.from_queryset(DefaultUserQuerySet)()
+
+
   # Constants
-  # =========
+  # ==========
 
   UNIQUE_IDENTIFIER_FIELD = 'uuid'
 
@@ -147,8 +176,9 @@ class UUIDUser(auth_models.PermissionsMixin, auth_models.AbstractBaseUser):
     ),
     code='invalid')
 
+
   # Model Fields
-  # ============
+  # =============
 
   uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
 
@@ -204,10 +234,9 @@ class UUIDUser(auth_models.PermissionsMixin, auth_models.AbstractBaseUser):
   #   verbose_name='user permissions',
   #   help_text='Specific permissions for this user.')
 
-  # Model Managers/QuerySets
-  # ========================
 
-  objects = DefaultUserManager.from_queryset(DefaultUserQuerySet)()
+  # Instance Methods and Properties
+  # ================================
 
   def __str__(self):
     return str(self.get_username())

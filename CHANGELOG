@@ -1,3 +1,9 @@
+0.0.7-dev
+==========
+
+- Make it less weird to subclass DefaultUserManager.
+
+
 0.0.6
 ======
 
