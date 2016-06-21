@@ -1,3 +1,17 @@
+0.0.8
+======
+
+- Don't fail when alternative backends that don't use username are used.
+
+  When using a different auth backend (oauth for example) the username is set
+  to `None`.  This, in combination with the istant signup (where users don't
+  have a username) was leading to `MultipleObjectsReturned` from the
+  `User.objects.get(username__iexact=username)` query.
+
+  Now we just fail if we can't resolve a username, and pass on the
+  authentication duties to the next backend.
+
+
 0.0.7
 ======
 

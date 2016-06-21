@@ -15,7 +15,17 @@ class UUIDUserBackend(ModelBackend):
     UserModel = get_user_model()
 
     if username is None:
+      # The username field may have been changed.
+      #
       username = kwargs.get(UserModel.USERNAME_FIELD)
+
+    if username is None:
+      # The username was not given.  This may be because another form of auth
+      # is being used.
+      #
+      # TODO(nick): Is there a more elegant way to handle this?
+      #
+      return None
 
     try:
       user = UserModel.objects.username(username)
