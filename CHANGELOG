@@ -1,11 +1,18 @@
-0.0.9
+0.0.10
 ======
+
+- Add a MANIFEST.in file to include version, changelog, docs, etc. in the
+  uuiduser package.
+
+
+0.0.9
+=====
 
 - Revert 0.0.8.  This needs more thought.
 
 
 0.0.8
-======
+=====
 
 - Don't fail when alternative backends that don't use username are used.
 
@@ -19,13 +26,13 @@
 
 
 0.0.7
-======
+=====
 
 - Make it less weird to subclass DefaultUserManager.
 
 
 0.0.6
-======
+=====
 
 - Address Django 1.9 warnings about custom fields
 - Create DefaultUserManager in the UUIDUser class instead of at the module
@@ -37,6 +44,6 @@
 
 
 < 0.0.6
-========
+=======
 
 Initial project development.  See commit log for details.

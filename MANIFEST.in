@@ -1,0 +1,5 @@
+include LICENSE
+include VERSION
+recursive-include uuiduser/static *
+recursive-include uuiduser/templates *
+recursive-include docs *
