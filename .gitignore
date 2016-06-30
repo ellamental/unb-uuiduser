@@ -2,15 +2,16 @@
 # ======
 
 # setup.py egg-info
+#
 *.egg-info/
 
 # compiled files
+#
 *.py[cod]
 
-# virtual environment
-venv
-
-# distributions
+# Packaging
+#
+build
 dist
 
 
