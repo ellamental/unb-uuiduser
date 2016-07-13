@@ -1,3 +1,15 @@
+0.0.11
+======
+
+- Reimplement authentication backend fixes from 0.0.8.
+
+  This is a temporary fix until I can put some thought into how to solve this
+  in a more robust manner.
+
+  NOTE: The `uuiduser.backends.UUIDUserBackend` must come last in the list of
+        authentication backends!
+
+
 0.0.10
 ======
 

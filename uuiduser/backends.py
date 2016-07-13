@@ -20,7 +20,7 @@ class UUIDUserBackend(ModelBackend):
       username = kwargs.get(UserModel.USERNAME_FIELD)
 
     # TODO(nick): If usernames are not required, another form of auth is
-    #             used that does not pass a username, and that form of auth is
+    #             used that does not pass a username. If that form of auth is
     #             listed after this backend, you may get
     #             MultipleObjectsReturned errors if you have more than one user
     #             with a null username (and erroneously attempt to login a user
@@ -31,13 +31,13 @@ class UUIDUserBackend(ModelBackend):
     #             This isn't ideal, but neither is the solution below.  So this
     #             needs a bit more thinking overall.
     #
-    # if username is None:
-    #   # The username was not given.  This may be because another form of auth
-    #   # is being used.
-    #   #
-    #   # TODO(nick): Is there a more elegant way to handle this?
-    #   #
-    #   return None
+    if username is None:
+      # The username was not given.  This may be because another form of auth
+      # is being used.
+      #
+      # TODO(nick): Is there a more elegant way to handle this?
+      #
+      return None
 
     try:
       user = UserModel.objects.username(username)
